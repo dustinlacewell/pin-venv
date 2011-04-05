@@ -22,11 +22,11 @@ class CapnVenvPinHook(PinHook):
     def __init__(self):
         self.options = None
 
-    def _isactive(self):
-        if self.options:
+    def isactive(self):
+        if self.options: # have we parsed options?
+            # were both required options present?
             return self.options.autoenv and self.options.venv
         return False
-    active = property(_isactive)
 
     @eventhook('init-post-args')
     def postargs(self, args):
@@ -37,7 +37,7 @@ class CapnVenvPinHook(PinHook):
 
     @eventhook('venv-post-create')
     def install(self, path, **kwargs):
-        if self.active:
+        if self.active: # only install if options were present
             activate_path = os.path.join(path, 'bin', 'activate')
             add_external_hook(self.default_hook_file, os.getcwd(), hooktype='tree',
                           enter=['source %s' % activate_path],
@@ -46,6 +46,9 @@ class CapnVenvPinHook(PinHook):
     @eventhook('init-post-script')
     def activate_capn(self, file):
         if self.active:
+            # source capn and activate venv
             file.write("source capn\n")
+            file.write("source .pin/env/bin/activate\n")
+
 if CAPN:
     register(CapnVenvPinHook)

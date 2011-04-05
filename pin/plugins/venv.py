@@ -36,10 +36,10 @@ class VirtualEnvPinHook(PinHook):
         self.options, extargs  = parser.parse_known_args(args)
 
     @eventhook('init-post-exec')
-    def create_venv(self, path, root):
+    def create_venv(self, cwd, root):
         if self.options and self.options.venv:
             print "Creating virtualenv..."
-            envpath = os.path.join(root, PROJECT_FOLDERNAME, VENV_FOLDERNAME)
+            envpath = os.path.join(cwd, PROJECT_FOLDERNAME, VENV_FOLDERNAME)
             self.fire("pre-create", envpath)
             os.mkdir(envpath)
             create_virtualenv(envpath)

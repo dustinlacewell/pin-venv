@@ -59,6 +59,6 @@ class CapnVenvPinHook(PinHook):
     @eventhook('destroy-post-exec')
     # remove capn hooks
     def remove_capn(self, cwd, root):
-        remove_external_hook(root)
+        remove_external_hook(self.default_hook_file, root)
 
 register(CapnVenvPinHook)

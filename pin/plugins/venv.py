@@ -1,6 +1,7 @@
 import os
 from argparse import ArgumentParser
 
+from pin import *
 from pin import registry
 from pin.event import register, eventhook
 from pin.plugin import PinHook, register
@@ -9,13 +10,15 @@ from pin.util import *
 import virtualenv
 virtualenv.logger = virtualenv.Logger(consumers=[])
 
+VENV_FOLDERNAME = 'env'
+
 # Utility methods
 @findroot
 def create_virtualenv(path):
     if path:
         path = os.path.join(path,
                             PROJECT_FOLDERNAME,
-                            VIRTUALENV_FOLDERNAME)
+                            VENV_FOLDERNAME)
         virtualenv.create_environment(path, False, True)
 
 # Virtual environment hooks
@@ -36,8 +39,9 @@ class VirtualEnvPinHook(PinHook):
     def create_venv(self, path, **kwargs):
         if self.options and self.options.venv:
             print "Creating virtualenv..."
-            path = os.path.join(path, '.pin', 'env')
+            path = os.path.join(path, PROJECT_FOLDERNAME, VENV_FOLDERNAME)
             self.fire("pre-create", path)
+            os.mkdir(path)
             create_virtualenv(path)
             self.fire("post-create", path)
 

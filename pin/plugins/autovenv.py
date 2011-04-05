@@ -61,4 +61,6 @@ class CapnVenvPinHook(PinHook):
     def remove_capn(self, cwd, root):
         remove_external_hook(self.default_hook_file, root)
 
+
+
 register(CapnVenvPinHook)

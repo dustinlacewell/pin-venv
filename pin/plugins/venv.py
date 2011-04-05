@@ -45,4 +45,9 @@ class VirtualEnvPinHook(PinHook):
             create_virtualenv(envpath)
             self.fire("post-create", envpath)
 
+    @eventhook('destroy-post-script')
+    def deactivate(self, file):
+        file.write("deactivate;")
+        
+
 register(VirtualEnvPinHook)

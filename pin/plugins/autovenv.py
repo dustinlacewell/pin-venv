@@ -1,11 +1,7 @@
 import os
 from argparse import ArgumentParser
 
-try:
-    from capn.config import add_external_hook
-    CAPN = True
-except ImportError:
-    CAPN = False
+from capn.config import add_external_hook
 
 from pin.config import config
 from pin.event import eventhook
@@ -25,14 +21,20 @@ class CapnVenvPinHook(PinHook):
     def isactive(self):
         if self.options: # have we parsed options?
             # were both required options present?
-            return self.options.autoenv and self.options.venv
+            return self.options.autoenv
         return False
+
+    @eventhook('init-pre-args')
+    def preargs(self, args):
+        # if autoenv flag is present
+        if '--autoenv' in args:
+            # force venv creation
+            args.append('--venv')
 
     @eventhook('init-post-args')
     def postargs(self, args):
         parser = ArgumentParser()
         parser.add_argument('--autoenv', action='store_true')
-        parser.add_argument('--venv', action='store_true')
         self.options, extargs = parser.parse_known_args(args)
 
     @eventhook('venv-post-create')
@@ -47,8 +49,7 @@ class CapnVenvPinHook(PinHook):
     def activate_capn(self, file):
         if self.active:
             # source capn and activate venv
-            file.write("source capn\n")
-            file.write("source .pin/env/bin/activate\n")
+            file.write("source .pin/env/bin/activate;")
+            file.write("source capn;")
 
-if CAPN:
-    register(CapnVenvPinHook)
+register(CapnVenvPinHook)

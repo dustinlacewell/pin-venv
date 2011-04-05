@@ -4,8 +4,11 @@ from distutils.core import setup
 
 setup(
     name='pin-venv',
-    version='0.0dev',
+    version='0.3',
     packages=['pin.plugins'],
-    license='Creative Commons Attribution-Noncommercial-Share Alike license',
-    long_description=open('README').read(),
+    author='Dustin Lacewell',
+    author_email='dlacewell@gmail.com',
+    url='https://github.com/dustinlacewell/pin-venv',
+    description="VirtualEnv plugins for pin",
+    long_description=open('README.markdown').read(),
 )

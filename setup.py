@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='pinvenv',
-    version='0.1.2',
+    version='0.1',
     packages=['pin.plugins'],
     install_requires=['pin', 'capn', 'virtualenv'],
     provides=['pinvenv'],

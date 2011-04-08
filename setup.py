@@ -1,12 +1,13 @@
 import os
 
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='pinvenv',
-    version='0.1',
-    packages=['pin.plugins'],
-    install_requires=['pin', 'capn', 'virtualenv'],
+    version='0.1.7',
+    packages=['pin','pin.plugins'],
+    namespace_packages=['pin', 'pin.plugins'],
+    install_requires=['capn', 'virtualenv'],
     provides=['pinvenv'],
     author='Dustin Lacewell',
     author_email='dlacewell@gmail.com',

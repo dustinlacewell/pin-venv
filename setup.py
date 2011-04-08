@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='pinvenv',
-    version='0.1.7',
+    version='0.1.8',
     packages=['pin','pin.plugins'],
     namespace_packages=['pin', 'pin.plugins'],
     install_requires=['capn', 'virtualenv'],

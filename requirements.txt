@@ -1,3 +1,2 @@
 capn>=1.0
 virtualenv>=1.6
-pin>=0.3.3

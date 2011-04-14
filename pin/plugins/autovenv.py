@@ -5,7 +5,7 @@ from capn.config import add_external_hook, remove_external_hook
 
 from pin.config import config
 from pin.event import eventhook
-from pin.plugin import PinHook, register
+from pin.hook import PinHook, register
 from pin.util import get_settings_path
 
 # Capn auto-venv hooks

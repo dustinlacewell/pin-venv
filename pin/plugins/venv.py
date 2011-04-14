@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from pin import *
 from pin import registry
 from pin.event import register, eventhook
-from pin.plugin import PinHook, register
+from pin.hook import PinHook, register
 from pin.util import *
 
 import virtualenv

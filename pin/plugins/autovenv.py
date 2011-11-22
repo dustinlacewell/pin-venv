@@ -24,6 +24,11 @@ class CapnVenvPinHook(PinHook):
             return self.options.autoenv
         return False
 
+    @eventhook('init-post-parser')
+    def post_parser(self, parser):
+        parser.add_argument('--autoenv', action='store_true',
+                            help='automatically de/activate virtualenv upon entering and exiting project directory')
+
     @eventhook('init-pre-args')
     # auto add --venv flag
     def preargs(self, args):
@@ -34,10 +39,8 @@ class CapnVenvPinHook(PinHook):
 
     @eventhook('init-post-args')
     # parse --autoenv flag
-    def postargs(self, args):
-        parser = ArgumentParser()
-        parser.add_argument('--autoenv', action='store_true')
-        self.options, extargs = parser.parse_known_args(args)
+    def postargs(self, args, options):
+        self.options = options
 
     @eventhook('venv-post-create')
     # create capn hooks

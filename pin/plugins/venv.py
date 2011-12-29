@@ -18,8 +18,8 @@ class VirtualEnvPinHook(hook.PinHook):
         self.options = None
 
     def write_env_path_file(self, root, venv):
-        path_file = os.path.join(root, '.pin', 'venv.pth'), 'w')
-        with open(path_file) as file:
+        path_file = os.path.join(root, '.pin', 'venv.pth')
+        with open(path_file, 'w') as file:
             file.write(venv)
 
     @eventhook('init-post-parser')
@@ -56,4 +56,4 @@ class VirtualEnvPinHook(hook.PinHook):
     @eventhook('destroy-post-script')
     def destroy_post_script(self, file):
         file.write("deactivate;")
-register(VirtualEnvPinHook)
+hook.register(VirtualEnvPinHook)

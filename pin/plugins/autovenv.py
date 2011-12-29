@@ -21,21 +21,15 @@ class CapnVenvPinHook(PinHook):
     def isactive(self):
         if self.options: # have we parsed options?
             # were both required options present?
-            return self.options.autoenv
+            return (getattr(self.options, 'mkenv', None) or
+                    getattr(self.options, 'lnenv', None))
         return False
 
     @eventhook('init-post-parser')
     def post_parser(self, parser):
         parser.add_argument('--autoenv', action='store_true',
-                            help='automatically de/activate virtualenv upon entering and exiting project directory')
+                            help='automatically de/activate virtualenv upon entering and exiting project directory (requires --mkenv or --lnenv)')
 
-    @eventhook('init-pre-args')
-    # auto add --venv flag
-    def preargs(self, args):
-        # if autoenv flag is present
-        if '--autoenv' in args:
-            # force venv creation
-            args.append('--venv')
 
     @eventhook('init-post-args')
     # parse --autoenv flag
@@ -43,6 +37,7 @@ class CapnVenvPinHook(PinHook):
         self.options = options
 
     @eventhook('venv-post-create')
+    @eventhook('venv-post-link')
     # create capn hooks
     def install(self, path, **kwargs):
         if self.active: # only install if options were present
@@ -63,7 +58,5 @@ class CapnVenvPinHook(PinHook):
     # remove capn hooks
     def remove_capn(self, cwd, root):
         remove_external_hook(self.default_hook_file, root)
-
-
 
 register(CapnVenvPinHook)
